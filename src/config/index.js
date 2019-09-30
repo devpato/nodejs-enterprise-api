@@ -13,7 +13,7 @@ const config = {
     port: parseInt(process.env.PORT, 10),
     database_URL: process.env.MONGODB_URI_DEV,
     api: {
-      prefix: '/api'
+      prefix: '/api-dev'
     }
   },
   prod: {

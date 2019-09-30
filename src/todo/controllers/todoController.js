@@ -1,38 +1,35 @@
 const todoService = require('../services/todo');
 
-exports.getTasks = async (req, res, next) => {
-  try {
-    const tasks = await todoService.getTasks();
-    return res.status(201).json({
-      message: 'Fetched posts successfully.',
-      tasks: tasks,
-      status: 200
-    });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
+module.exports = {
+  getTasks: async (req, res, next) => {
+    try {
+      const tasks = await todoService.getTasks();
+      return res.status(201).json({
+        message: 'Fetched posts successfully.',
+        tasks: tasks,
+        status: 200
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      return err;
     }
-    return err;
-  }
-};
+  },
 
-exports.getTasksById = async (req, res, next) => {
-  const taskId = req.params.id;
-  const task = await todoService.getTasksById(taskId);
-  try {
-    if (!task) {
-      throw new Error('Task not found');
+  createTask: async (req, res, next) => {
+    try {
+      const task = todoService.createTask(req.body.title, req.body.status);
+      await task.save();
+      return res.status(201).json({
+        message: 'Fetched posts successfully.',
+        status: 200
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      return err;
     }
-
-    return res.status(201).json({
-      message: 'Task fetched',
-      task: task,
-      status: 200
-    });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    return err;
   }
 };

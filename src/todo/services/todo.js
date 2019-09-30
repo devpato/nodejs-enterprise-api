@@ -5,8 +5,12 @@ class TodoService {
     return Task.find();
   }
 
-  static getTasksById(id) {
-    return Task.findById(id);
+  static createTask(title, status) {
+    const task = new Task({
+      title: title,
+      status: status
+    });
+    return task;
   }
 }
 
